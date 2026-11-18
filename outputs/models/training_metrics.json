@@ -1,0 +1,33 @@
+{
+    "scenario_title": "Smart EV Charging Scheduler pada Microgrid PV-EV",
+    "student_name": "Sigit Miraj Permana",
+    "student_nim": "301240037",
+    "total_states": 27,
+    "total_actions": 3,
+    "total_episodes": 3000,
+    "default_hyperparams": {
+        "alpha": 0.8,
+        "gamma": 0.9,
+        "decay_rate": 0.002
+    },
+    "evaluation": {
+        "mean_reward": 226.21,
+        "std_reward": 13.91,
+        "max_reward": 263.0,
+        "min_reward": 175.0,
+        "overload_rate_pct": 0.0
+    },
+    "gamma_comparison": {
+        "gamma_0_90_final_ma": 240.81,
+        "gamma_0_10_final_ma": 307.89
+    },
+    "alpha_comparison": {
+        "alpha_0_80_final_ma": 240.81,
+        "alpha_0_05_final_ma": 298.34
+    },
+    "action_distribution": {
+        "0: Standby / Tunda": 16,
+        "1: Eco Charging (PV+Bat)": 9,
+        "2: Fast Charging (PV+Grid)": 2
+    }
+}

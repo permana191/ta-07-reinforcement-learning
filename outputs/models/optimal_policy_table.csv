@@ -1,0 +1,28 @@
+State_ID,Kondisi_Daya,Level_Baterai,Tarif_Listrik,Q_Standby,Q_Eco_Charge,Q_Fast_Charge,Aksi_Optimal_ID,Kebijakan_Optimal
+0,Defisit,SOC Rendah,Tarif Murah,77.121,32.103,11.099,0,0: Standby / Tunda
+1,Defisit,SOC Rendah,Tarif Normal,69.265,19.587,4.806,0,0: Standby / Tunda
+2,Defisit,SOC Rendah,Tarif Mahal,62.902,5.756,5.218,0,0: Standby / Tunda
+3,Defisit,SOC Sedang,Tarif Murah,25.68,59.0,21.271,1,1: Eco Charging (PV+Bat)
+4,Defisit,SOC Sedang,Tarif Normal,59.219,18.238,16.799,0,0: Standby / Tunda
+5,Defisit,SOC Sedang,Tarif Mahal,79.409,15.859,18.174,0,0: Standby / Tunda
+6,Defisit,SOC Tinggi,Tarif Murah,73.832,15.8,24.928,0,0: Standby / Tunda
+7,Defisit,SOC Tinggi,Tarif Normal,73.997,43.922,29.074,0,0: Standby / Tunda
+8,Defisit,SOC Tinggi,Tarif Mahal,44.199,17.684,17.887,0,0: Standby / Tunda
+9,Surplus Tipis,SOC Rendah,Tarif Murah,6.973,48.91,3.452,1,1: Eco Charging (PV+Bat)
+10,Surplus Tipis,SOC Rendah,Tarif Normal,12.064,37.674,11.402,1,1: Eco Charging (PV+Bat)
+11,Surplus Tipis,SOC Rendah,Tarif Mahal,0.0,0.0,0.0,0,0: Standby / Tunda
+12,Surplus Tipis,SOC Sedang,Tarif Murah,50.673,27.412,24.509,0,0: Standby / Tunda
+13,Surplus Tipis,SOC Sedang,Tarif Normal,16.685,80.153,25.904,1,1: Eco Charging (PV+Bat)
+14,Surplus Tipis,SOC Sedang,Tarif Mahal,0.0,0.0,0.0,0,0: Standby / Tunda
+15,Surplus Tipis,SOC Tinggi,Tarif Murah,16.711,43.336,47.487,2,2: Fast Charging (PV+Grid)
+16,Surplus Tipis,SOC Tinggi,Tarif Normal,41.832,98.082,30.285,1,1: Eco Charging (PV+Bat)
+17,Surplus Tipis,SOC Tinggi,Tarif Mahal,0.0,0.0,0.0,0,0: Standby / Tunda
+18,Surplus Melimpah,SOC Rendah,Tarif Murah,12.409,48.172,33.211,1,1: Eco Charging (PV+Bat)
+19,Surplus Melimpah,SOC Rendah,Tarif Normal,9.068,16.22,9.946,1,1: Eco Charging (PV+Bat)
+20,Surplus Melimpah,SOC Rendah,Tarif Mahal,0.0,0.0,0.0,0,0: Standby / Tunda
+21,Surplus Melimpah,SOC Sedang,Tarif Murah,13.156,73.02,66.927,1,1: Eco Charging (PV+Bat)
+22,Surplus Melimpah,SOC Sedang,Tarif Normal,67.962,77.434,27.872,1,1: Eco Charging (PV+Bat)
+23,Surplus Melimpah,SOC Sedang,Tarif Mahal,0.0,0.0,0.0,0,0: Standby / Tunda
+24,Surplus Melimpah,SOC Tinggi,Tarif Murah,31.618,61.331,85.674,2,2: Fast Charging (PV+Grid)
+25,Surplus Melimpah,SOC Tinggi,Tarif Normal,77.053,66.413,58.479,0,0: Standby / Tunda
+26,Surplus Melimpah,SOC Tinggi,Tarif Mahal,0.0,0.0,0.0,0,0: Standby / Tunda

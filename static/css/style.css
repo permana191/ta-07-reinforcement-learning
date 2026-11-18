@@ -1,0 +1,52 @@
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+body { background: #F8FAFC; color: #1E293B; line-height: 1.55; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+.navbar { background: linear-gradient(135deg, #1E3A8A, #2563EB); color: #FFFFFF; padding: 22px 0; margin-bottom: 24px; box-shadow: 0 4px 12px rgba(30, 58, 138, 0.15); }
+.nav-content { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+.badge { background: rgba(255,255,255,0.18); padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.5px; }
+.navbar h1 { font-size: 1.45rem; margin-top: 6px; }
+.student-info { text-align: right; font-size: 0.9rem; }
+.student-info strong { display: block; font-size: 1rem; }
+
+.kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-bottom: 24px; }
+.kpi-card { background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 12px; padding: 18px; box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04); }
+.kpi-label { font-size: 0.82rem; color: #64748B; font-weight: 600; text-transform: uppercase; }
+.kpi-value { font-size: 1.45rem; font-weight: 800; margin: 6px 0; color: #0F172A; }
+.kpi-sub { font-size: 0.8rem; color: #475569; }
+.text-blue { color: #2563EB; }
+.text-green { color: #059669; }
+
+.card { background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 12px; padding: 24px; margin-bottom: 24px; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04); }
+.card h2 { font-size: 1.18rem; color: #1E3A8A; margin-bottom: 6px; }
+.desc { color: #64748B; font-size: 0.92rem; margin-bottom: 18px; }
+.section-header-flex { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 12px; }
+
+.sim-controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; align-items: end; margin-bottom: 18px; }
+.form-group label { display: block; font-size: 0.84rem; font-weight: 600; margin-bottom: 6px; color: #334155; }
+.form-group select { width: 100%; padding: 10px 12px; border: 1px solid #CBD5E1; border-radius: 8px; background: #F8FAFC; font-size: 0.92rem; }
+.btn-primary { background: #2563EB; color: #FFFFFF; border: none; padding: 11px 20px; border-radius: 8px; font-weight: 700; cursor: pointer; transition: 0.2s; }
+.btn-primary:hover { background: #1D4ED8; }
+
+.result-panel { background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 10px; padding: 16px; }
+.result-header { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; font-size: 1.05rem; color: #1E3A8A; }
+.state-pill { background: #1E3A8A; color: #FFFFFF; padding: 3px 10px; border-radius: 999px; font-size: 0.8rem; font-weight: 700; }
+.q-bars { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 10px; font-size: 0.92rem; }
+.q-item { background: #FFFFFF; padding: 6px 12px; border-radius: 6px; border: 1px solid #DBEAFE; }
+.explanation-text { font-size: 0.9rem; color: #334155; }
+
+.sim-summary-banner { background: #ECFDF5; border: 1px solid #A7F3D0; color: #065F46; padding: 12px 16px; border-radius: 8px; font-weight: 700; margin-bottom: 14px; }
+.table-wrapper { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+th, td { padding: 10px 12px; border-bottom: 1px solid #E2E8F0; text-align: left; }
+th { background: #F1F5F9; color: #1E293B; font-weight: 700; }
+.text-center { text-align: center; color: #64748B; }
+
+.policy-badge { padding: 4px 9px; border-radius: 6px; font-weight: 700; font-size: 0.8rem; display: inline-block; }
+.act-0 { background: #FEF3C7; color: #92400E; }
+.act-1 { background: #D1FAE5; color: #065F46; }
+.act-2 { background: #DBEAFE; color: #1E40AF; }
+
+.plots-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(460px, 1fr)); gap: 18px; margin-top: 12px; }
+.plot-card { border: 1px solid #E2E8F0; border-radius: 10px; padding: 14px; background: #F8FAFC; }
+.plot-card h3 { font-size: 0.95rem; margin-bottom: 10px; color: #334155; }
+.plot-card img { width: 100%; height: auto; border-radius: 6px; border: 1px solid #CBD5E1; }

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TA-06 Q-Learning | Smart EV Charging Microgrid</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header class="navbar">
+        <div class="container nav-content">
+            <div>
+                <span class="badge">TA-06 REINFORCEMENT LEARNING (Q-LEARNING)</span>
+                <h1>Smart EV Charging Scheduler — Microgrid PV-EV</h1>
+            </div>
+            <div class="student-info">
+                <strong>{{ metrics.student_name }}</strong>
+                <span>NIM: {{ metrics.student_nim }} | Teknik Informatika UNIBBA</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- KPI Ringkasan -->
+        <section class="kpi-grid">
+            <div class="kpi-card">
+                <span class="kpi-label">Dimensi Q-Table</span>
+                <div class="kpi-value">{{ metrics.total_states }} States &times; {{ metrics.total_actions }} Actions</div>
+                <span class="kpi-sub">Total 81 Sel Nilai Q(s, a)</span>
+            </div>
+            <div class="kpi-card">
+                <span class="kpi-label">Total Episode Latih</span>
+                <div class="kpi-value">{{ metrics.total_episodes }} Episode</div>
+                <span class="kpi-sub">&alpha;={{ metrics.default_hyperparams.alpha }}, &gamma;={{ metrics.default_hyperparams.gamma }}, decay={{ metrics.default_hyperparams.decay_rate }}</span>
+            </div>
+            <div class="kpi-card">
+                <span class="kpi-label">Rata-Rata Reward Evaluasi</span>
+                <div class="kpi-value text-blue">+{{ metrics.evaluation.mean_reward }}</div>
+                <span class="kpi-sub">Akumulasi 24 Jam (200 Episode Uji)</span>
+            </div>
+            <div class="kpi-card">
+                <span class="kpi-label">Tingkat Risiko Overload</span>
+                <div class="kpi-value text-green">{{ metrics.evaluation.overload_rate_pct }}%</div>
+                <span class="kpi-sub">Penalti Grid Overload Terhindari</span>
+            </div>
+        </section>
+
+        <!-- Simulator Keputusan Q-Table Interaktif -->
+        <section class="card">
+            <h2>1. Uji Keputusan Agen Q-Learning (State-to-Action Inspector)</h2>
+            <p class="desc">Pilih kombinasi kondisi lingkungan diskrit di bawah ini untuk melihat bagaimana Q-Table memilih aksi optimal berdasarkan nilai Q tertinggi.</p>
+            <div class="sim-controls">
+                <div class="form-group">
+                    <label for="power_idx">Kondisi Daya Bersih (Net Power)</label>
+                    <select id="power_idx">
+                        <option value="0">0 — Defisit Daya (&le; 0 kW)</option>
+                        <option value="1">1 — Surplus Tipis (0 – 12 kW)</option>
+                        <option value="2" selected>2 — Surplus Melimpah (&gt; 12 kW)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="soc_idx">Level Baterai Stasiun (Battery SOC)</label>
+                    <select id="soc_idx">
+                        <option value="0">0 — Rendah / Kritis (&lt; 35%)</option>
+                        <option value="1" selected>1 — Sedang / Normal (35% – 70%)</option>
+                        <option value="2">2 — Tinggi / Penuh (&gt; 70%)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="tariff_idx">Tarif Listrik Dinamis (Time-of-Use)</label>
+                    <select id="tariff_idx">
+                        <option value="0" selected>0 — Tarif Murah (Off-Peak)</option>
+                        <option value="1">1 — Tarif Normal (Mid-Peak)</option>
+                        <option value="2">2 — Tarif Mahal (Peak Load)</option>
+                    </select>
+                </div>
+                <button class="btn-primary" onclick="evaluateState()">Evaluasi Q-Value</button>
+            </div>
+
+            <div id="stateResultBox" class="result-panel">
+                <div class="result-header">
+                    <span id="resStateTag" class="state-pill">State S21</span>
+                    <strong id="resActionLabel">2: Fast Charging (PV+Grid)</strong>
+                </div>
+                <div class="q-bars">
+                    <div class="q-item"><span>Q(s, Standby):</span> <strong id="qVal0">0.0</strong></div>
+                    <div class="q-item"><span>Q(s, Eco Charge):</span> <strong id="qVal1">0.0</strong></div>
+                    <div class="q-item"><span>Q(s, Fast Charge):</span> <strong id="qVal2">0.0</strong></div>
+                </div>
+                <p id="resExplanation" class="explanation-text"></p>
+            </div>
+        </section>
+
+        <!-- Simulasi 24 Jam Otomatis -->
+        <section class="card">
+            <div class="section-header-flex">
+                <div>
+                    <h2>2. Simulasi Operasi Otomatis 24 Jam (1 Episode Penuh)</h2>
+                    <p class="desc">Jalankan agen terlatih untuk mengambil keputusan sekuensial selama 24 jam operasional stasiun EV.</p>
+                </div>
+                <button class="btn-primary" onclick="run24HSimulation()">Jalankan Simulasi 24 Jam</button>
+            </div>
+            <div id="sim24Summary" class="sim-summary-banner" style="display:none;"></div>
+            <div class="table-wrapper">
+                <table id="sim24Table">
+                    <thead>
+                        <tr>
+                            <th>Jam</th>
+                            <th>State</th>
+                            <th>Deskripsi Kondisi Lingkungan</th>
+                            <th>Aksi Optimal Agen</th>
+                            <th>SOC Akhir</th>
+                            <th>Reward</th>
+                            <th>Catatan Fisika &amp; Kebijakan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td colspan="7" class="text-center">Klik tombol "Jalankan Simulasi 24 Jam" untuk memulai simulasi episode.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Visualisasi Analisis TA-06 -->
+        <section class="card">
+            <h2>3. Galeri Visualisasi Pelatihan &amp; Eksperimen Hiperparameter</h2>
+            <div class="plots-grid">
+                <div class="plot-card">
+                    <h3>Kurva Pembelajaran (Moving Average 100 Episode)</h3>
+                    <img src="{{ url_for('static', filename='../outputs/plots/01_learning_curve.png') }}" onerror="this.src='/plot/01_learning_curve.png'" alt="Learning Curve">
+                </div>
+                <div class="plot-card">
+                    <h3>Peta Kebijakan Optimal (27 States)</h3>
+                    <img src="/plot/02_optimal_policy_map.png" alt="Optimal Policy Map">
+                </div>
+                <div class="plot-card">
+                    <h3>Eksperimen Gamma (&gamma;=0.90 vs &gamma;=0.10)</h3>
+                    <img src="/plot/04_hyperparam_gamma.png" alt="Gamma Experiment">
+                </div>
+                <div class="plot-card">
+                    <h3>Eksperimen Alpha (&alpha;=0.80 vs &alpha;=0.05)</h3>
+                    <img src="/plot/05_hyperparam_alpha.png" alt="Alpha Experiment">
+                </div>
+            </div>
+        </section>
+
+        <!-- Tabel Lengkap Q-Table 27 States -->
+        <section class="card">
+            <h2>4. Matriks Q-Table Lengkap &amp; Kebijakan Optimal (27 States)</h2>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Kondisi Daya</th>
+                            <th>Level Baterai</th>
+                            <th>Tarif Listrik</th>
+                            <th>Q(Standby)</th>
+                            <th>Q(Eco)</th>
+                            <th>Q(Fast)</th>
+                            <th>Kebijakan Optimal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in policy_rows %}
+                        <tr>
+                            <td><strong>S{{ "%02d"|format(row.State_ID) }}</strong></td>
+                            <td>{{ row.Kondisi_Daya }}</td>
+                            <td>{{ row.Level_Baterai }}</td>
+                            <td>{{ row.Tarif_Listrik }}</td>
+                            <td>{{ row.Q_Standby }}</td>
+                            <td>{{ row.Q_Eco_Charge }}</td>
+                            <td>{{ row.Q_Fast_Charge }}</td>
+                            <td><span class="policy-badge act-{{ row.Aksi_Optimal_ID }}">{{ row.Kebijakan_Optimal }}</span></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
